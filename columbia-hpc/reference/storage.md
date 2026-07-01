@@ -1,7 +1,7 @@
 # Columbia University HPC — Storage Reference
 
 > **Source of truth:** offline snapshot of Columbia CUIT HPC wiki, **captured 2026-06-30**
-> (`/Users/uzaypoyraz/cuit-hpc-docs/`). Facts below are taken from the per-cluster
+> from the RCS Confluence wiki (columbiauniversity.atlassian.net/wiki/spaces/rcs). Facts below are taken from the per-cluster
 > **Storage**, **New Scratch Space**, and **Working on …** pages. Per-group TB allocations
 > change over time — confirm against the live `Source:` URLs in each page before relying on a
 > specific number. Two items (node-local `/tmp` behavior, apptainer/singularity cache path)

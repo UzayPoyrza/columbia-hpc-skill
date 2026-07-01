@@ -1,6 +1,6 @@
 # Columbia HPC — Software Modules Reference
 
-> Source of truth: local CUIT HPC docs snapshot (`/Users/uzaypoyraz/cuit-hpc-docs/`),
+> Source of truth: Columbia RCS Confluence wiki (columbiauniversity.atlassian.net/wiki/spaces/rcs),
 > per-cluster **Software** and **Job Examples** pages for Insomnia, Ginsburg, Terremoto.
 > Docs snapshot captured **2026-06-30**. On-cluster corrections verified **2026-07-01** (see last section).
 > Only module names/facts present in those files are reported here. Versions drift — confirm with `module avail`.

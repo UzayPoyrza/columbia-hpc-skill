@@ -2,7 +2,7 @@
 
 **How to use this file:** look up per-cluster login/transfer hostnames, node specs, partitions/QoS, walltime and job limits, and how account names work; where the source docs disagree, a ⚠ note flags the conflict — verify against the live wiki before relying on it.
 
-**Source:** offline snapshot of Columbia CUIT HPC wiki (`/Users/uzaypoyraz/cuit-hpc-docs/`, captured 2026-06-30). All specs below are drawn only from those pages (HPC overview + each cluster's Technical Information, Getting Started, Submitting Jobs, User Documentation, plus Terremoto New Queue System / Working pages). Node counts and policies are time-sensitive — confirm against the source `Source:` URLs.
+**Source:** Columbia RCS Confluence wiki (columbiauniversity.atlassian.net/wiki/spaces/rcs), snapshot captured 2026-06-30. All specs below are drawn only from those pages (HPC overview + each cluster's Technical Information, Getting Started, Submitting Jobs, User Documentation, plus Terremoto New Queue System / Working pages). Node counts and policies are time-sensitive — confirm against the source `Source:` URLs.
 
 ## Summary
 
