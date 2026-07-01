@@ -1,15 +1,18 @@
 ---
 name: columbia-hpc
 description: >-
-  Help users run work on Columbia University's HPC clusters (Insomnia, Ginsburg,
-  Terremoto) with the SLURM scheduler — writing and submitting sbatch jobs,
-  estimating the right resources, loading the correct modules, using GPUs and
-  containers (Apptainer/Singularity), managing home vs scratch storage, and
-  debugging job failures. Use this whenever the user mentions Columbia HPC, CUIT
-  HPC, RCS, Insomnia / Ginsburg / Terremoto, a *.rcs.columbia.edu host, a SLURM
-  account on a Columbia cluster, or asks how to submit / run / compile / debug a
-  job with sbatch / srun / squeue / salloc on these systems — even if they don't
-  name the skill or the cluster explicitly.
+  Help users run work on Columbia University's Research Computing (RCS/CUIT) HPC
+  clusters — Insomnia, Ginsburg, Terremoto, or the Free Tier (*.rcs.columbia.edu) —
+  with the SLURM scheduler: writing, submitting, and debugging sbatch/srun jobs,
+  sizing cores/memory/time/GPUs, loading modules, using GPUs and containers
+  (Apptainer/Singularity), managing home vs scratch storage, and getting access.
+  Naming any of these clusters — or "Columbia HPC / CUIT / RCS" — is itself enough
+  to use this skill, and you should trigger even when the message is just a plain
+  error or how-to that never says "skill," "HPC," or "Columbia": e.g. "command not
+  found" on a compute node, "invalid account", module / CUDA / nvcc trouble, a
+  killed or pending job, sizing a job, or copying data to scratch. Do NOT trigger
+  for generic SLURM questions with no Columbia signal, or a clearly different
+  university's cluster (e.g. Stanford).
 ---
 
 # Columbia HPC (Insomnia · Ginsburg · Terremoto)
