@@ -1,9 +1,12 @@
 # Troubleshooting: error → cause → fix
 
 Most job failures on these clusters are **known environment quirks**, not bugs in the
-user's code — and Columbia's public docs are wrong on several. Match the symptom
-here before debugging deeper. Corrections marked *(verified 2026-07-01)* were
-confirmed on Insomnia by running the jobs.
+user's code. Match the symptom here before debugging deeper. Items marked
+*(verified 2026-07-01)* are cases where following the documented step fails on the
+live system; they were confirmed on Insomnia by running the jobs. Use the working
+fix, and report persistent doc discrepancies to `hpc-support@columbia.edu` so the
+official docs get corrected — this reference complements the canonical docs, it
+doesn't replace them.
 
 ## Modules / environment
 

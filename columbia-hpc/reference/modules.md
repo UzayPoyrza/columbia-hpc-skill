@@ -68,9 +68,11 @@ Job Examples differ, both are shown.
 | **Ginsburg** | `gurobi/10/0/3`, `knitro/13.2.0`, `schrodinger/2024-1`, `stata/18`, `Mathematica/13.2`; QE `QE/7.2` (Quantum Espresso); `OpenFOAM/v2206`; `WIEN2k_21.1`; neuro: `AFNI/23.1.05`, `ANTs/2.4.4`, `FSL/6.0.5.2`, `freesurfer/7.4`, `workbench/1.5.0`; genomics: `bcftools/1.18`, `samtools/1.19`, `htslib/1.19`, `vcftools/0.1.17`, `cactus/2.6.7`, `lastz/1.04.15`, `nextflow/23.10.0`, `ancestry_hmm/0.94`; numerics/libs: `scalapack/2.2.0`, `glpk/5.0`, `metis/5.1.0`, `mumps/5.6.2`, `hdf5/1.10.1`, `netcdf-fortran-intel/4.5.3`, `netcdf/gcc/64/gcc/64/4.7.4`, `octave`, `candi/9.4.2-r3`, `leptonica/1.83.0`, `tesseract`, `LBPM/22.08`, `libRadtran/2.0.5`; ocean color: `ocssw`, `seadas/9.0.1`; utils: `stopos`, `vim/9.1`. VS Code Server (not a module). |
 | **Terremoto** | `knitro/13.2.0`, `stata/16`. (Software table is short; most domain software lives on Ginsburg/Insomnia.) |
 
-## Verified corrections (on-cluster 2026-07-01)
+## Live-system notes — verified on-cluster (2026-07-01)
 
-The docs snapshot is **wrong** on the following Insomnia points. These were confirmed on the cluster.
+On the following Insomnia points, the documented step currently fails on the live system
+(confirmed by running jobs on the cluster). Use the working approach below, and report the
+discrepancy to hpc-support so the official docs get corrected — the docs remain the source of truth.
 
 1. **apptainer is NOT auto-loaded on compute nodes.** Despite the Insomnia docs saying Apptainer is
    "automatically loaded on any compute node," you must run `module load apptainer` before using it —

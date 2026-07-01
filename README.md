@@ -8,14 +8,23 @@ and containers, managing home vs scratch storage, and debugging job failures.
 
 ## Why it exists
 
-Columbia's public HPC docs are good but **wrong in several places**, and getting
-resource requests wrong wastes allocation or fails jobs. This skill packages
-**distilled, verified** guidance — including corrections confirmed by actually
-running jobs on the cluster (e.g. Apptainer needs an explicit `module load`, the
-`cuda/12.3` module is mislabeled, MATLAB's binary is lowercase, OpenMPI5 needs a
-clean environment). It also encodes the judgment that's easy to get wrong:
-**estimate resources from the workload, lean conservative, and refine from measured
-data** — don't copy demo-scale numbers from examples.
+When an AI agent helps someone on Columbia's clusters, it needs accurate,
+system-specific guidance — the right login, storage, module, and scheduling workflow —
+to produce **correct and consistent** results instead of plausible guesses. This skill
+packages Columbia's HPC documentation into an agent-usable form (progressive
+disclosure) and **references those docs as the source of truth**.
+
+Two things make it more than a doc dump:
+
+- **Resource-estimation judgment the docs don't teach:** size the request to the
+  workload, lean conservative, and refine from measured data (`seff`) — don't copy
+  demo-scale numbers from examples.
+- **Operational notes for the live system:** where following a documented step
+  currently fails (a module that must be loaded, a version-drifted path), the skill
+  gives the working command so the agent doesn't fail, cites the source page, and flags
+  it to verify against the live docs and report to `hpc-support`. The skill does **not**
+  try to fix the documentation — the official docs stay canonical; discrepancies get
+  escalated, not overridden.
 
 ## What's inside
 
@@ -27,7 +36,7 @@ columbia-hpc/
     access.md           # login, Duo, SSH config, accounts
     storage.md          # home vs scratch paths, quotas, shared-FS model
     resources.md        # how to size cores/mem/time/GPUs + feedback loop
-    modules.md          # exact module names + verified corrections per cluster
+    modules.md          # exact module names + live-system notes per cluster
     troubleshooting.md  # error → cause → fix
   templates/            # right-sized, parameterized sbatch starting points
 ```
@@ -49,7 +58,9 @@ agent's skills directory.
 
 Distilled from Columbia's RCS Confluence docs (snapshot captured 2026-06-30) and
 **verified on-cluster on 2026-07-01** by running a suite of jobs on Insomnia.
-Corrections vs the public docs are marked in `reference/`. Cluster facts trace to the
-docs; where the docs conflict, the reference files say so rather than guessing.
+Cluster facts trace to Columbia's docs (the canonical source); where the docs conflict,
+the reference files flag it rather than guessing. Where a documented step currently fails
+on the live system, the reference files note the working command and cite the source page
+so it can be verified and reported to RCS.
 
 Not affiliated with or endorsed by Columbia University; community-maintained.

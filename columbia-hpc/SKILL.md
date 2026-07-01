@@ -20,10 +20,11 @@ without wasted allocation, failed jobs, or overloaded login nodes.
 ## Cardinal rule: don't guess cluster facts — read the reference file
 
 Module names, node sizes, storage paths, partitions, and walltime limits **differ
-per cluster and change over time**, and Columbia's own public docs are wrong in
-several places (see `reference/troubleshooting.md`). When a task needs a specific
-fact, **open the relevant `reference/` file** rather than recalling it. The files
-are short and task-scoped.
+per cluster and drift over time**. Treat Columbia's HPC docs as the source of truth,
+but **confirm specifics from the `reference/` files** rather than recalling them —
+they distill the docs and, where a documented step currently fails on the live
+system, note the working command and cite the source so the user can verify and
+report it (see `reference/troubleshooting.md`). The files are short and task-scoped.
 
 | Need | Read |
 |------|------|
@@ -31,7 +32,7 @@ are short and task-scoped.
 | login, Duo, SSH config, account names | `reference/access.md` |
 | home vs scratch paths, quotas, where to run | `reference/storage.md` |
 | how to size cores / memory / time / GPUs | `reference/resources.md` |
-| exact module names + verified corrections per cluster | `reference/modules.md` |
+| exact module names + live-system notes per cluster | `reference/modules.md` |
 | error → cause → fix (the gotchas) | `reference/troubleshooting.md` |
 | ready-to-edit sbatch starting points | `templates/` |
 
@@ -107,9 +108,9 @@ runs use a **job array** (`--array=1-N`) instead of a loop of `sbatch` calls —
 
 ## Modules, GPUs, containers — mind the per-cluster gotchas
 
-Module names differ per cluster and several docs are wrong. Always confirm against
-`reference/modules.md`. The highest-frequency gotchas (all detailed in
-`reference/troubleshooting.md`):
+Module names differ per cluster, and a few documented steps currently fail on the
+live system. Always confirm against `reference/modules.md`. The highest-frequency
+gotchas (all detailed in `reference/troubleshooting.md`):
 
 - **Containers differ:** Insomnia uses **Apptainer**, Ginsburg/Terremoto use
   **Singularity**. On Insomnia you must `module load apptainer` first — it is *not*
