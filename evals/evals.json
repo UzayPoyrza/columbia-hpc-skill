@@ -2,21 +2,63 @@
   "skill_name": "columbia-hpc",
   "evals": [
     {
+      "id": 0,
+      "prompt": "I need to run a PyTorch training script on Columbia's Insomnia cluster on a GPU. My group account is rcs. It uses roughly 20 GB of GPU memory and takes about 3 hours. Can you write me the sbatch script and walk me through how to actually get it running from scratch?",
+      "expected_output": "Right-sized single-GPU sbatch (--gres=gpu:1, sane time, -A rcs), srun-then-sbatch workflow, load env in-script, run from scratch. No node over-request.",
+      "files": []
+    },
+    {
       "id": 1,
-      "prompt": "I need to run a PyTorch training script on a GPU on Columbia's Insomnia cluster. My group account is rcs. It uses roughly 20 GB of GPU memory and takes about 3 hours. Can you write me the sbatch script and walk me through how to actually get it running from scratch?",
-      "expected_output": "A right-sized GPU sbatch script (--gres=gpu:1, realistic --time with headroom, sensible mem, -A rcs), the srun-then-sbatch workflow, load env in-script, run from scratch, and awareness of Insomnia GPU/module gotchas. Should NOT over-request nodes.",
+      "prompt": "I've got an MPI simulation to run on Insomnia under account rcs. The example in the docs uses `#SBATCH -N 2` and `--ntasks-per-node=80` so I was just going to copy that. It's a medium-sized job. Does that look right?",
+      "expected_output": "Pushes back on copying the 2-node/80-task demo; coaches right-sizing (1 node default) + measure with seff.",
       "files": []
     },
     {
       "id": 2,
-      "prompt": "I've got an MPI simulation to run on Insomnia under account rcs. The example in the docs uses `#SBATCH -N 2` and `--ntasks-per-node=80` so I was just going to copy that. It's a medium-sized job. Does that look right?",
-      "expected_output": "Should push back on blindly copying the 2-node/80-task demo, explain that reserves two whole nodes, and coach right-sizing to the actual workload (default 1 node unless true cross-node MPI), plus test-small-then-measure with seff. Should not simply approve the copied config.",
+      "prompt": "Two of my jobs on Columbia's Insomnia cluster failed. One says `apptainer: command not found` and another says `nvcc: command not found` even though I ran `module load cuda` first. What's going on and how do I fix each?",
+      "expected_output": "module load apptainer for the first; for the second, compile with /usr/local/cuda/bin/nvcc (full toolkit path), not a bare nvcc. Both addressed.",
       "files": []
     },
     {
       "id": 3,
-      "prompt": "Two of my Insomnia jobs failed. One says `apptainer: command not found` and another says `nvcc: command not found` even though I ran `module load cuda` first. What's going on and how do I fix each?",
-      "expected_output": "Identifies both as known Insomnia gotchas: apptainer must be `module load apptainer` (not auto-loaded); the cuda module is mislabeled with no nvcc, real toolkit at /usr/local/cuda, compile with /usr/local/cuda/bin/nvcc (--cudart static). Gives the concrete fixes.",
+      "prompt": "just ssh'd into insomnia and i want to quickly run a python script that processes a ~2GB csv (takes like 10 min, uses a few cores). can i just run `python process.py` right here or is that a problem?",
+      "expected_output": "Should say NO — that's the login node, which is shared; don't run compute there. Use an interactive srun session or an sbatch job on a compute node. Should give the concrete command.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "I'm developing a simulation on Columbia's Ginsburg cluster and I need to compile it and poke at it interactively — run it, see errors, tweak, rerun — before I launch the real thing. What's the right way to get a shell where I can actually do that?",
+      "expected_output": "An interactive job via srun --pty ... /bin/bash on a compute node (with account); compile/test there, not on the login node. Bonus: note modules are only visible on compute nodes.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "I've got a ~400 GB dataset for my project on Insomnia and my jobs write large output files. Should I just keep all this in my home directory and run jobs from there, or is there a better place?",
+      "expected_output": "Use group/scratch space, not home (home is small / quota'd); gives the scratch path pattern; notes shared filesystem so scratch is visible on all nodes; mind quotas / no backups.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "my sbatch keeps failing with 'Invalid account'. i don't actually know what i'm supposed to put for the account. how do i figure out the right `-A` value on Insomnia?",
+      "expected_output": "The account is your research group's short name (not your UNI); find it in the cluster's Submit Account table or ask your PI; then use -A <group>.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "How do I get a folder of input files (~5 GB) from my laptop onto my scratch space on Columbia's Ginsburg cluster? I'm on a Mac.",
+      "expected_output": "scp -r (or rsync) from the Mac to the Ginsburg scratch path (with hostname/transfer node); mentions Globus for large transfers; correct scratch path pattern. Does NOT claim scp is unavailable.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "How long is a single job allowed to run on Columbia's Insomnia cluster, and is there a cap on how many jobs I can have submitted or running at once?",
+      "expected_output": "Walltime limits (e.g. 5 days on group-owned nodes, 12 h on shared) and job limits (max running / max submitted). Should point to the reference rather than guess numbers if unsure.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "How do I check on my jobs on Columbia's Insomnia cluster — see which are running vs still waiting and why — and cancel one if I need to?",
+      "expected_output": "squeue -u $USER to list jobs with state + the NODELIST(REASON) column for why a job is pending; scancel <jobid> to cancel; sacct/seff to inspect finished jobs.",
       "files": []
     }
   ]
