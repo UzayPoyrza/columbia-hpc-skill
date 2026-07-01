@@ -8,7 +8,7 @@
 #SBATCH --time=0-01:00
 #SBATCH --mem-per-cpu=4G
 
-# Pick the stack for your cluster (exact names in ../reference/modules.md):
+# Pick the stack for your cluster (exact names in ../docs/INDEX.md):
 
 # --- Intel MPI (Insomnia, Intel oneAPI) ---
 # module load oneapi/hpctoolkit/hpctoolkit-2024.0.0

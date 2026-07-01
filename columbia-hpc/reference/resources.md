@@ -35,7 +35,7 @@ Ask (or infer) these before writing `#SBATCH` lines:
 ## Cores, nodes, and hyperthreading
 
 - Match tasks/cores to what the code uses. A single-node job should keep
-  `-c` ≤ that cluster's cores-per-node (see `reference/clusters.md`; e.g. Insomnia
+  `-c` ≤ that cluster's cores-per-node (see `../docs/INDEX.md`; e.g. Insomnia
   standard nodes are 80 physical cores).
 - **Hyperthreading caveat:** the scheduler may hand out "CPUs" that map to fewer
   physical cores, which trips up MPI process binding. If an MPI launch complains
@@ -53,7 +53,7 @@ Ask (or infer) these before writing `#SBATCH` lines:
   often start sooner. But a job that exceeds its walltime is **killed** — so don't
   shave it too close on a real run.
 - Walltime caps differ by node ownership (owned vs shared) — see
-  `reference/clusters.md`.
+  `../docs/INDEX.md`.
 
 ## Memory
 
@@ -64,7 +64,7 @@ Ask (or infer) these before writing `#SBATCH` lines:
 - Over-requesting memory packs fewer jobs per node and slows *your* scheduling too —
   request what the data needs plus a margin, not the node maximum.
 - For very large memory, clusters have high-memory nodes behind a constraint
-  (`-C mem1024` etc.) — see `reference/clusters.md`.
+  (`-C mem1024` etc.) — see `../docs/INDEX.md`.
 
 ## Close the loop: measure, then right-size
 

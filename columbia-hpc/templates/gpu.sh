@@ -11,7 +11,7 @@
 # bare `nvcc`. Do this once, interactively on a GPU node:
 #   /usr/local/cuda/bin/nvcc --cudart static -o my_gpu_prog my_gpu_prog.cu
 # (--cudart static makes the binary self-contained.) See ../reference/troubleshooting.md.
-# Ginsburg/Terremoto: `module load cudaXX/toolkit` (see ../reference/modules.md).
+# Ginsburg/Terremoto: `module load cudaXX/toolkit` (see ../docs/INDEX.md).
 
 # module load cuda
 ./my_gpu_prog

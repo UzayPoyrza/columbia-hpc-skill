@@ -12,7 +12,7 @@ user's code — and most have a one-line fix. Match the symptom here before debu
 | `MATLAB: command not found` | The launcher is lowercase `matlab` | Use `matlab` (after `module load MATLAB`) |
 | MATLAB job runs then hangs until walltime | `matlab -r "..."` stays at the prompt with no terminal | End the command with `; exit`: `matlab -nosplash -nodisplay -nodesktop -r "myfunc(10); exit"` |
 | a program can't find a module you loaded on the login node | Modules are only visible on **compute** nodes, and the login env doesn't carry into a batch job | `srun` to a compute node for interactive work; put `module load ...` **inside** the sbatch script |
-| software table module name doesn't load | Names differ per cluster / version drift | Check `reference/modules.md`; run `module avail <name>` on a compute node |
+| software table module name doesn't load | Names differ per cluster / version drift | Check the cluster's Software page via `../docs/INDEX.md`; run `module avail <name>` on a compute node |
 
 ## MPI
 
@@ -31,7 +31,7 @@ user's code — and most have a one-line fix. Match the symptom here before debu
 | Job stuck `PD` with reason `Priority` / `Resources` | Normal queueing behind other jobs | Wait; smaller/shorter jobs backfill sooner |
 | Job state `TIMEOUT` | Ran past `--time` and was killed | Raise walltime (from a `seff`/test estimate) and resubmit |
 | Job state `OUT_OF_MEMORY` / `FAILED` with OOM | Exceeded requested memory | Raise `--mem`/`--mem-per-cpu`; check `seff <jobid>` for actual usage |
-| `Invalid account` / `InvalidQOS` | Wrong `-A`/QoS | Use your group account (see `reference/access.md`) |
+| `Invalid account` / `InvalidQOS` | Wrong `-A`/QoS | Use your group account (see the cluster's Getting Started page via `../docs/INDEX.md`) |
 
 ## Login node / housekeeping
 

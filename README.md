@@ -29,20 +29,23 @@ Two things make it more than a doc dump:
 
 ```
 columbia-hpc/
-  SKILL.md              # router: golden workflow, resource-estimation principles, gotchas
-  reference/
-    clusters.md         # hostnames, node specs, partitions, limits (per cluster)
-    access.md           # login, Duo, SSH config, accounts
-    storage.md          # home vs scratch paths, quotas, shared-FS model
+  SKILL.md              # router + navigation judgment + resource principles + workflow
+  docs/                 # Columbia's HPC pages, bundled locally = the FACTS (source of truth)
+    INDEX.md            # topic/task → the right page (the map the agent routes through)
+    Insomnia_*.md  Ginsburg_*.md  Terremoto_*.md  Free_Tier_*.md  ... (~48 pages)
+  reference/            # the JUDGMENT layer (what the docs don't teach)
     resources.md        # how to size cores/mem/time/GPUs + feedback loop
-    modules.md          # exact module names + live-system notes per cluster
     troubleshooting.md  # error → cause → fix
+    ssh-config.md       # client-side SSH/login setup tip
   templates/            # right-sized, parameterized sbatch starting points
 ```
 
-Progressive disclosure: the agent always sees the short description, loads `SKILL.md`
-when the task is Columbia-HPC-related, and opens a `reference/` file only when a
-specific task needs it — so the whole kit ships locally but stays cheap in context.
+Two non-overlapping layers: **facts** live once, in the bundled `docs/` pages (lightly
+corrected where we verified fixes on-cluster); **judgment** lives in `SKILL.md` + `reference/`.
+Progressive disclosure means the agent always sees the short description, loads `SKILL.md` when
+the task is Columbia-HPC-related, then opens *one* `docs/` page (via `INDEX`) or `reference/`
+file only when a specific task needs it — so the whole kit ships locally but stays cheap in
+context.
 
 ## Install
 

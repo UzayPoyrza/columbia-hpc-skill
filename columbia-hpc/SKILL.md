@@ -14,130 +14,98 @@ description: >-
 
 # Columbia HPC (Insomnia · Ginsburg · Terremoto)
 
-Help the user get work running on Columbia's Research Computing (RCS) clusters
-without wasted allocation, failed jobs, or overloaded login nodes.
+Help the user get work running on Columbia's Research Computing (RCS) clusters — correctly,
+consistently, and without wasted allocation or overloaded login nodes.
 
-## Cardinal rule: don't guess cluster facts — read the reference file
+## How this skill is organized (read this first)
 
-Module names, node sizes, storage paths, partitions, and walltime limits **differ
-per cluster and drift over time**. Treat Columbia's HPC docs as the source of truth,
-and **confirm specifics from the `reference/` files** rather than recalling them —
-they distill the docs into the exact form that works on the current system. The files
-are short and task-scoped.
+It bundles Columbia's HPC documentation locally and adds the judgment the docs don't teach.
+Two kinds of thing, kept separate so there's never a question of which to trust:
 
-| Need | Read |
-|------|------|
-| hostnames, node specs, partitions, limits, per-cluster facts | `reference/clusters.md` |
-| login, Duo, SSH config, account names | `reference/access.md` |
-| home vs scratch paths, quotas, where to run | `reference/storage.md` |
-| how to size cores / memory / time / GPUs | `reference/resources.md` |
-| exact module names + live-system notes per cluster | `reference/modules.md` |
-| error → cause → fix (the gotchas) | `reference/troubleshooting.md` |
-| ready-to-edit sbatch starting points | `templates/` |
+- **Facts** — specs, module names, paths, limits, how to run a specific tool — live in the
+  local doc pages under `docs/`. Find the right page via **`docs/INDEX.md`** and read it.
+- **Judgment** — how to size a job, the submit workflow, what to do when it breaks — lives in
+  this file and `reference/`.
+
+| For… | Go to |
+|------|-------|
+| any cluster fact or how-to (access, storage, modules, software, node specs, job examples) | **`docs/INDEX.md`** → the right page |
+| sizing a job (cores / memory / time / GPUs) | `reference/resources.md` |
+| an error or failed job | `reference/troubleshooting.md` |
+| a smoother SSH/login setup on the user's machine | `reference/ssh-config.md` |
+| a ready-to-edit sbatch starting point | `templates/` |
+
+## Navigation judgment: how and when to look things up
+
+- **Don't recall cluster facts — read them.** Module names, node sizes, paths, limits, and how
+  to run a given application differ per cluster and drift over time. When a task needs one, open
+  the right `docs/` page (via `INDEX`) rather than answering from memory.
+- **Facts from `docs/`, decisions from principles.** Use the doc pages for *what is*; use the
+  principles below for *what to request, and in what order*.
+- **Match the cluster.** Insomnia, Ginsburg, Terremoto, and the Free Tier differ — open the page
+  for the cluster the user is actually on.
+- **Load software with `module load` on a compute node** — even tools described as "available"
+  may need an explicit `module load`, and modules aren't visible on the login node at all.
+- **When the docs are silent or you're unsure, verify cheaply** in an interactive `srun` session
+  instead of assuming.
 
 ## The golden workflow
 
-Columbia clusters have three kinds of machine. Using the wrong one is the most
-common mistake:
+Columbia clusters have three kinds of machine; using the wrong one is the most common mistake:
 
-1. **Login node** (where you land on SSH) — shared by everyone. Edit files, submit
-   jobs. **Do not compute, compile, or run anything heavy here** — it degrades the
-   node for all users. Also, **software modules are not visible on the login node.**
-2. **Compute node, interactive** (`srun --pty ... /bin/bash`) — a real worker node
-   with a live shell. Use it to **compile, install, pull containers, and test**
-   before committing to a batch job. This is where "does my setup even work?"
-   questions get answered fast.
+1. **Login node** (where you land on SSH) — shared. Edit files, submit jobs. **Never compute,
+   compile, or run anything heavy here**, and note modules aren't visible here.
+2. **Compute node, interactive** (`srun --pty ... /bin/bash`) — a real worker with a live shell.
+   Use it to compile, install, pull containers, and **test** before committing to a batch job.
 3. **Compute node, batch** (`sbatch script.sh`) — unattended production runs.
 
-So the reliable sequence is: **`srun` to a compute node → get the environment
-working (modules, compile, quick test) → write a right-sized `sbatch` script →
-submit → monitor → check efficiency.** Prove it interactively first; then batch it.
+So the reliable sequence is: **`srun` to a compute node → get the environment working (modules,
+compile, quick test) → write a right-sized `sbatch` script → submit → monitor → check
+efficiency.** Prove it interactively first, then batch it.
 
-Interactive session (replace `<ACCOUNT>` with the user's SLURM account):
 ```
-srun --pty -t 0-01:00 -A <ACCOUNT> /bin/bash          # CPU node
-srun --pty -t 0-01:00 --gres=gpu:1 -A <ACCOUNT> /bin/bash   # GPU node
+srun --pty -t 0-01:00 -A <ACCOUNT> /bin/bash               # CPU compute node
+srun --pty -t 0-01:00 --gres=gpu:1 -A <ACCOUNT> /bin/bash  # GPU compute node
 ```
 
-## Estimating resources — the part that matters most
+## Principles (these matter more than any single fact — facts drift, judgment doesn't)
 
-The goal is **not** to request the minimum, and **not** to copy the numbers from a
-doc example. It is to **size the request to the actual workload**, lean a little
-conservative, and then **correct from measured data**. Over-requesting wastes the
-group's allocation, schedules slower, and is antisocial on a shared system;
-under-requesting gets the job killed. Aim to be *about right*, then refine.
+The goal is **not** to request the minimum, and **not** to copy the numbers from a doc example.
+It is to **size the request to the actual workload**, lean a little conservative, and then
+**correct from measured data**. Over-asking wastes the group's shared allocation and schedules
+slower; under-asking gets the job killed. (Full method in `reference/resources.md`.)
 
-Core habits (full method + numbers in `reference/resources.md`):
-
-- **Size to the work, not the example.** Ask what the job actually is — serial,
-  threaded, MPI, GPU? how much memory does the data need? how long will it run?
-  does it truly span multiple nodes? Map *that* to the request. Requesting whole
-  nodes "to be safe" is the trap — a demo script's `-N 2 --ntasks-per-node=80`
-  reserves two entire nodes; a test needs a fraction of that.
-- **Default to one node** unless the job genuinely needs cross-node MPI. Extra
-  nodes only help code built to use them.
-- **Walltime = a realistic estimate + ~25% headroom**, not "5 days to be safe."
-  Shorter jobs backfill into scheduling gaps and start sooner — but never set it so
-  low the job is killed mid-run.
-- **Test small first**, then scale: run a short job on small data / few iterations,
-  measure, and set the real request from what you saw.
-- **Close the loop.** After a run, check actual usage with `seff <jobid>` (or
-  `sacct`) — memory used, CPU efficiency, elapsed vs requested — and right-size the
-  *next* submission. This feedback loop beats any up-front guess.
+- **Size to the work, not the example or the maximum.** Ask what the job actually does — serial,
+  threaded, MPI, GPU? how much memory? how long? does it truly span nodes? Map *that* to the
+  request. Default to **one node** unless the code does real cross-node MPI.
+- **Start small, measure, then scale.** Treat the first run as a cheap probe (small data, short
+  walltime, one node); set the real request from what you saw.
+- **Walltime = a realistic estimate + ~25% headroom**, not "5 days to be safe" — shorter jobs
+  backfill and start sooner, but a job that exceeds its walltime is killed.
+- **Close the loop.** After a run, check actual usage with `seff <jobid>` and right-size the
+  *next* submission. Measured beats predicted.
+- **Be a good citizen of a shared machine.** No compute on login nodes; don't reserve whole
+  nodes you won't use.
 
 ## Writing and submitting a job
 
-Start from a `templates/` file and adapt it — don't hand-write from scratch. Every
-script needs at least an account, a time limit, and a resource request:
+Start from a `templates/` file and adapt it. Every script needs at least an account, a time
+limit, and a resource request; load software **inside the script** with `module load ...`
+(the login environment doesn't carry into the job). For GPUs add `--gres=gpu:1`; for many
+similar runs use a job array (`templates/array.sh`) instead of a loop of `sbatch`. For the exact
+module names, submit directives, and worked examples, open the cluster's page via `docs/INDEX.md`.
 
-```
-#SBATCH -A <ACCOUNT>        # SLURM account (group). See reference/access.md
-#SBATCH --job-name=<name>
-#SBATCH -c <cores>          # cores for a single-node job
-#SBATCH --time=<D-HH:MM>    # realistic estimate + headroom
-#SBATCH --mem-per-cpu=<mem> # or --mem=<total>
-```
-Submit with `sbatch script.sh`; it returns a job ID and runs on a compute node.
-Load any needed software **inside the script** with `module load ...` (see
-`reference/modules.md`) — the login environment does not carry into the job.
+## Storage
 
-For GPUs add `--gres=gpu:1` (and load the CUDA module in-script). For many similar
-runs use a **job array** (`--array=1-N`) instead of a loop of `sbatch` calls — see
-`templates/array.sh`.
+Home is small; do job I/O in **group/scratch space, not home** (paths and quotas are on each
+cluster's Storage page via `INDEX`). Home and scratch are shared across all nodes, so a file made
+on a compute node is visible everywhere; node-local `/tmp` is the exception (wiped after the job).
 
-## Modules, GPUs, containers — mind the per-cluster gotchas
+## Monitoring
 
-Module names differ per cluster, and a few details are easy to get wrong. Always
-confirm against `reference/modules.md`. The highest-frequency ones (all detailed in
-`reference/troubleshooting.md`):
+- `squeue -u $USER` — your jobs; the `NODELIST(REASON)` column explains why one is still pending.
+- `sacct -X -u $USER --starttime today --format=JobID,JobName,State,ExitCode,Elapsed` — pass/fail.
+- `seff <jobid>` — actual efficiency; feed it back into the next request.
+- `scancel <jobid>` — cancel. Output lands in `slurm-<jobid>.out` in the submit directory.
 
-- **Containers differ:** Insomnia uses **Apptainer**, Ginsburg/Terremoto use
-  **Singularity**. On Insomnia, `module load apptainer` before using it — it isn't on
-  your PATH by default.
-- **Insomnia CUDA:** compile with the full toolkit path `/usr/local/cuda/bin/nvcc` and
-  `--cudart static` for a portable binary (a bare `nvcc` after `module load cuda` won't
-  resolve).
-- **MATLAB:** the binary is lowercase `matlab`, and non-interactive runs need
-  `-r "...; exit"` or the job hangs to walltime.
-- **OpenMPI on Insomnia:** `module purge` before `module load openmpi5` (else
-  `libhwloc.so.15` is missing), and add `--bind-to none` for multi-rank launches.
-
-## Storage — run from scratch, not home
-
-Home and scratch are network-mounted and identical on every node, so a file made on
-a compute node is visible everywhere. Do job I/O in **group/scratch space**, not
-home (paths and quotas in `reference/storage.md`). Node-local `/tmp` is the
-exception — it is per-node and wiped when the job ends.
-
-## Monitoring and debugging
-
-- `squeue -u $USER` — your queued/running jobs; the `NODELIST(REASON)` column
-  explains *why* a job is still pending (e.g. waiting on nodes, priority).
-- `sacct -X -u $USER --starttime today --format=JobID,JobName,State,ExitCode,Elapsed`
-  — pass/fail + exit codes after jobs finish.
-- `seff <jobid>` — actual memory/CPU/time efficiency; use it to right-size next time.
-- Output lands in `slurm-<jobid>.out` in the submit directory.
-
-When a job fails, match the error against `reference/troubleshooting.md` before
-guessing — most failures on these clusters are known module/environment quirks with
-a one-line fix, not bugs in the user's code.
+When a job fails, match the error in `reference/troubleshooting.md` before digging deeper.
