@@ -7,8 +7,8 @@
 #SBATCH --time=0-01:00
 #SBATCH --mem-per-cpu=8G
 
-# COMPILING CUDA on Insomnia: the `cuda` module is mislabeled and ships no nvcc; the
-# real toolkit is /usr/local/cuda. Do this once, interactively on a GPU node:
+# COMPILING CUDA on Insomnia: compile with the full toolkit path (/usr/local/cuda), not a
+# bare `nvcc`. Do this once, interactively on a GPU node:
 #   /usr/local/cuda/bin/nvcc --cudart static -o my_gpu_prog my_gpu_prog.cu
 # (--cudart static makes the binary self-contained.) See ../reference/troubleshooting.md.
 # Ginsburg/Terremoto: `module load cudaXX/toolkit` (see ../reference/modules.md).
