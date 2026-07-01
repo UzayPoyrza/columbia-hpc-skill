@@ -1,0 +1,23 @@
+{
+  "skill_name": "columbia-hpc",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I need to run a PyTorch training script on a GPU on Columbia's Insomnia cluster. My group account is rcs. It uses roughly 20 GB of GPU memory and takes about 3 hours. Can you write me the sbatch script and walk me through how to actually get it running from scratch?",
+      "expected_output": "A right-sized GPU sbatch script (--gres=gpu:1, realistic --time with headroom, sensible mem, -A rcs), the srun-then-sbatch workflow, load env in-script, run from scratch, and awareness of Insomnia GPU/module gotchas. Should NOT over-request nodes.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I've got an MPI simulation to run on Insomnia under account rcs. The example in the docs uses `#SBATCH -N 2` and `--ntasks-per-node=80` so I was just going to copy that. It's a medium-sized job. Does that look right?",
+      "expected_output": "Should push back on blindly copying the 2-node/80-task demo, explain that reserves two whole nodes, and coach right-sizing to the actual workload (default 1 node unless true cross-node MPI), plus test-small-then-measure with seff. Should not simply approve the copied config.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Two of my Insomnia jobs failed. One says `apptainer: command not found` and another says `nvcc: command not found` even though I ran `module load cuda` first. What's going on and how do I fix each?",
+      "expected_output": "Identifies both as known Insomnia gotchas: apptainer must be `module load apptainer` (not auto-loaded); the cuda module is mislabeled with no nvcc, real toolkit at /usr/local/cuda, compile with /usr/local/cuda/bin/nvcc (--cudart static). Gives the concrete fixes.",
+      "files": []
+    }
+  ]
+}
