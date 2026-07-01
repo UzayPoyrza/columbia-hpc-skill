@@ -21,10 +21,9 @@ without wasted allocation, failed jobs, or overloaded login nodes.
 
 Module names, node sizes, storage paths, partitions, and walltime limits **differ
 per cluster and drift over time**. Treat Columbia's HPC docs as the source of truth,
-but **confirm specifics from the `reference/` files** rather than recalling them —
-they distill the docs and, where a documented step currently fails on the live
-system, note the working command and cite the source so the user can verify and
-report it (see `reference/troubleshooting.md`). The files are short and task-scoped.
+and **confirm specifics from the `reference/` files** rather than recalling them —
+they distill the docs into the exact form that works on the current system. The files
+are short and task-scoped.
 
 | Need | Read |
 |------|------|
@@ -108,16 +107,16 @@ runs use a **job array** (`--array=1-N`) instead of a loop of `sbatch` calls —
 
 ## Modules, GPUs, containers — mind the per-cluster gotchas
 
-Module names differ per cluster, and a few documented steps currently fail on the
-live system. Always confirm against `reference/modules.md`. The highest-frequency
-gotchas (all detailed in `reference/troubleshooting.md`):
+Module names differ per cluster, and a few details are easy to get wrong. Always
+confirm against `reference/modules.md`. The highest-frequency ones (all detailed in
+`reference/troubleshooting.md`):
 
 - **Containers differ:** Insomnia uses **Apptainer**, Ginsburg/Terremoto use
-  **Singularity**. On Insomnia you must `module load apptainer` first — it is *not*
-  auto-loaded despite what the docs claim.
-- **Insomnia CUDA:** the `cuda/12.3` module is mislabeled and has no `nvcc`; the real
-  toolkit is CUDA 12.9 at `/usr/local/cuda`. Compile with `/usr/local/cuda/bin/nvcc`
-  and `--cudart static` for a portable binary.
+  **Singularity**. On Insomnia, `module load apptainer` before using it — it isn't on
+  your PATH by default.
+- **Insomnia CUDA:** compile with the full toolkit path `/usr/local/cuda/bin/nvcc` and
+  `--cudart static` for a portable binary (a bare `nvcc` after `module load cuda` won't
+  resolve).
 - **MATLAB:** the binary is lowercase `matlab`, and non-interactive runs need
   `-r "...; exit"` or the job hangs to walltime.
 - **OpenMPI on Insomnia:** `module purge` before `module load openmpi5` (else

@@ -7,7 +7,7 @@
 #SBATCH --time=0-0:30
 #SBATCH --mem-per-cpu=5G
 
-module load apptainer          # REQUIRED on Insomnia — NOT auto-loaded (see ../reference/troubleshooting.md)
+module load apptainer          # load it explicitly on Insomnia (not on PATH by default)
 
 # Pull the image once beforehand on a compute node:
 #   apptainer pull myimg.sif docker://<image>

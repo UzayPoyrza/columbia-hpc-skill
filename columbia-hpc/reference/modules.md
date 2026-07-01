@@ -33,9 +33,9 @@ srun --pty -t 0-02:00 --gres=gpu:1 -A <ACCOUNT> /bin/bash   # GPU compute node
 
 ## Container tool differs per cluster
 
-| Cluster | Container tool | Load command (per docs) |
+| Cluster | Container tool | Load command |
 | --- | --- | --- |
-| **Insomnia** | **apptainer** | docs say auto-loaded on compute nodes — **but see correction #1 below: you must `module load apptainer`** |
+| **Insomnia** | **apptainer** | `module load apptainer` (on a compute node) |
 | **Ginsburg** | **singularity** | `module load singularity/3.7.1` (or `module load singularity`) |
 | **Terremoto** | **singularity** | `module load singularity` |
 
@@ -68,35 +68,32 @@ Job Examples differ, both are shown.
 | **Ginsburg** | `gurobi/10/0/3`, `knitro/13.2.0`, `schrodinger/2024-1`, `stata/18`, `Mathematica/13.2`; QE `QE/7.2` (Quantum Espresso); `OpenFOAM/v2206`; `WIEN2k_21.1`; neuro: `AFNI/23.1.05`, `ANTs/2.4.4`, `FSL/6.0.5.2`, `freesurfer/7.4`, `workbench/1.5.0`; genomics: `bcftools/1.18`, `samtools/1.19`, `htslib/1.19`, `vcftools/0.1.17`, `cactus/2.6.7`, `lastz/1.04.15`, `nextflow/23.10.0`, `ancestry_hmm/0.94`; numerics/libs: `scalapack/2.2.0`, `glpk/5.0`, `metis/5.1.0`, `mumps/5.6.2`, `hdf5/1.10.1`, `netcdf-fortran-intel/4.5.3`, `netcdf/gcc/64/gcc/64/4.7.4`, `octave`, `candi/9.4.2-r3`, `leptonica/1.83.0`, `tesseract`, `LBPM/22.08`, `libRadtran/2.0.5`; ocean color: `ocssw`, `seadas/9.0.1`; utils: `stopos`, `vim/9.1`. VS Code Server (not a module). |
 | **Terremoto** | `knitro/13.2.0`, `stata/16`. (Software table is short; most domain software lives on Ginsburg/Insomnia.) |
 
-## Live-system notes — verified on-cluster (2026-07-01)
+## Insomnia — current details worth getting right
 
-On the following Insomnia points, the documented step currently fails on the live system
-(confirmed by running jobs on the cluster). Use the working approach below, and report the
-discrepancy to hpc-support so the official docs get corrected — the docs remain the source of truth.
+A few specifics that are easy to get wrong when navigating Insomnia. Nothing here replaces the
+docs; it's just the exact form that works on the current system.
 
-1. **apptainer is NOT auto-loaded on compute nodes.** Despite the Insomnia docs saying Apptainer is
-   "automatically loaded on any compute node," you must run `module load apptainer` before using it —
-   in interactive sessions **and in batch jobs**.
+1. **Bring software in with `module load` — even when it's described as "available."** On these
+   clusters you load tools into your environment with `module load <name>` on a compute node. Some
+   are described as automatically available, but if a command isn't found, `module load` it. In
+   particular, run **`module load apptainer`** before using Apptainer (interactively and in batch
+   scripts) rather than assuming it's already on your PATH.
 
-2. **The `cuda/12.3` module is MISLABELED.** It sets paths to `/usr/local/cuda-12.3`, which has **no
-   `nvcc`**. The real toolkit is **CUDA 12.9 at `/usr/local/cuda`**. Compile with the full path and
-   link the runtime statically so the binary is self-contained:
+2. **Compile CUDA with the full toolkit path.** Use the current toolkit at `/usr/local/cuda` and link
+   the runtime statically so the binary is self-contained:
    ```
    /usr/local/cuda/bin/nvcc --cudart static -o hello_world hello_world.cu
    ```
-   (Do not rely on `module load cuda` + bare `nvcc`.)
 
-3. **The MATLAB binary is lowercase `matlab`, not `MATLAB`.** After `module load MATLAB` the executable
-   is at `/insomnia001/shared/apps/MATLAB/R2025a/bin/matlab`. The docs' uppercase `MATLAB` command does
-   not exist. Run non-interactively as:
+3. **The MATLAB launcher is lowercase `matlab`.** After `module load MATLAB`, run non-interactively
+   with a trailing `; exit` (or the process hangs waiting for input):
    ```
    matlab -nosplash -nodisplay -nodesktop -r "...; exit"
    ```
-   The trailing `; exit` is required or the process hangs.
 
-4. **openmpi5 needs a clean environment.** Run `module purge` **before** `module load openmpi5`,
-   otherwise `mpiexec` fails with `libhwloc.so.15: cannot open shared object file`. For multi-rank
-   launches under hyperthreading, add `--bind-to none`:
+4. **Load OpenMPI5 in a clean environment.** `module purge` before `module load openmpi5` (otherwise
+   `mpiexec` can't find `libhwloc.so.15`), and add `--bind-to none` for multi-rank launches under
+   hyperthreading:
    ```
    module purge
    module load openmpi5

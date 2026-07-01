@@ -14,7 +14,7 @@
 
 All three use the **Slurm** scheduler with fair-share priority (no preemption in the legacy model; see Terremoto queue system for the preemptible `burst` QoS). Accounts on every cluster are **group (lab/department) names**, not your UNI, passed via `-A`/`--account`.
 
-> **Verified on-cluster (2026-07-01) — Insomnia:** nodes are dual 40-core Intel Xeon Platinum 8460Y = **80 physical cores/node (160 logical with hyperthreading)**. The Submitting-Jobs page's "**32 cores**" (and its directives table's "max 24 cores") is **STALE** — do not trust it. A GPU node observed was an **NVIDIA RTX A6000 (48 GB)** (the docs' "A600" == RTX A6000).
+> **Verified on-cluster (2026-07-01) — Insomnia:** nodes are dual 40-core Intel Xeon Platinum 8460Y = **80 physical cores/node (160 logical with hyperthreading)**. Use 80 — an older Submitting-Jobs page still lists "32 cores" (table: "24"). A GPU node observed was an **NVIDIA RTX A6000 (48 GB)** (the docs' "A600" == RTX A6000).
 
 ---
 
@@ -36,7 +36,7 @@ All three use the **Slurm** scheduler with fair-share priority (no preemption in
 **Walltime:** max **5 days (120 h)** but only on nodes your group owns; on all other/shared nodes the limit is **12 h**.
 **Job limits:** **500** max running jobs/user; **5,000** max submitted/user; job array ≤ **1,001** elements.
 **Accounts:** group names from the submit-account table (e.g. `berkelbach`, `astro`, `iicd`, `sscc`, `free`, `friesner`, `qmech`, …); `free` = Free-Tier users with limited run times.
-⚠ **Stale/conflict:** Submitting-Jobs page says "max cores per node is 32", its directives table says "max 24 cores", and memory examples assume 32 cores → 160 GB — all wrong per the on-cluster verification above (80 physical / 160 logical).
+⚠ **Note:** the Submitting-Jobs page lists "max cores per node is 32" (table: "24"), while the Job-Examples page and on-cluster verification give **80 physical / 160 logical** — use 80.
 
 ---
 

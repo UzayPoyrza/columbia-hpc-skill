@@ -19,12 +19,11 @@ Two things make it more than a doc dump:
 - **Resource-estimation judgment the docs don't teach:** size the request to the
   workload, lean conservative, and refine from measured data (`seff`) — don't copy
   demo-scale numbers from examples.
-- **Operational notes for the live system:** where following a documented step
-  currently fails (a module that must be loaded, a version-drifted path), the skill
-  gives the working command so the agent doesn't fail, cites the source page, and flags
-  it to verify against the live docs and report to `hpc-support`. The skill does **not**
-  try to fix the documentation — the official docs stay canonical; discrepancies get
-  escalated, not overridden.
+- **The exact commands that work on the current system:** the specific module loads,
+  paths, and invocations that make things run — so the agent follows the right step
+  instead of a plausible guess. Columbia's docs remain the source of truth; the skill
+  just carries the current operational form (e.g. a module you need to load, a
+  lowercase binary name).
 
 ## What's inside
 
