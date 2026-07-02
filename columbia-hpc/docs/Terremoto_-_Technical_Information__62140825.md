@@ -37,7 +37,7 @@ Terremoto has 111 Standard Nodes with the following specifications:
 
 ## High Memory Nodes
 
-Terremoto's 114 high memory nodes have 768 GB of memory each. They are otherwise identical to the standard nodes.
+Terremoto's 14 high memory nodes have 768 GB of memory each. They are otherwise identical to the standard nodes.
 
 ## GPU Nodes
 

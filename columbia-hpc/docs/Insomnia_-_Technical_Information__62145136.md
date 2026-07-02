@@ -21,8 +21,8 @@ Insomnia has 90 nodes with a cluster total of 14,288 cores (80 physical cores pe
 
 - 41 Standard Nodes (512 GB ram)
 - 19 High Memory Nodes (1 TB ram)
-- 13 GPU Nodes with eight NVIDIA A600 GPU modules
-- 2 GPU Nodes with four NVIDIA A600 GPU modules
+- 13 GPU Nodes with eight NVIDIA RTX A6000 GPU modules
+- 2 GPU Nodes with four NVIDIA RTX A6000 GPU modules
 - 3 GPU Nodes with two NVIDIA H100 GPU modules
 - 3 GPU Nodes with two NVIDIA L40 GPU modules
 - 9 GPU Nodes with two NVIDIA L40s GPU modules

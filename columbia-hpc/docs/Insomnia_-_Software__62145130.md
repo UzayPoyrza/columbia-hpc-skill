@@ -39,7 +39,7 @@ The list may be partial and not totally up-to-date at any given time. Requests f
 
 | **Name** | **Version** | **Location / Module** | **Category** |
 | --- | --- | --- | --- |
-| Apptainer | 1.2.5-1.el9 | (installed directly on all **compute** nodes) | Run Docker-like containers |
+| Apptainer | 1.2.5-1.el9 | (on all **compute** nodes; requires `module load apptainer`) | Run Docker-like containers |
 | cmake | 3.20.2 | (installed directly on all **compute** nodes) |  |
 | cuda | 12.3 | (installed directly on GPU nodes) | GPU Computing |
 | gcc | 11.4.1 | (installed directly on all **compute** nodes) | Compiler - C / C++ |
@@ -87,11 +87,12 @@ On Insomnia, rstudio can be loaded by leveraging an interactive session, i.e., `
 srun -X -A <GROUP> --pty -t 0-01:00 -X /bin/bash
 ```
 
-Apptainer is loaded automatically and no longer a separate module the way Singularity was on previous clusters. We can go ahead and use it to pull the container. This will take a few minutes.
+Apptainer is available on all compute nodes but must be loaded with `module load apptainer` first. We can go ahead and use it to pull the container. This will take a few minutes.
 
 On subsequent sessions you skip this step as the container will remain.
 
 ```
+module load apptainer
 apptainer pull --name rstudio.simg docker://rocker/rstudio:4.3.1
 ```
 

@@ -7,11 +7,11 @@ user's code — and most have a one-line fix. Match the symptom here before debu
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| `apptainer: command not found` on a compute node | Apptainer isn't on your PATH until you load it | `module load apptainer` first — in interactive sessions **and inside the sbatch script** |
-| `nvcc: command not found` after `module load cuda` | `module load cuda` + bare `nvcc` doesn't put the compiler on your PATH | Compile with the full toolkit path `/usr/local/cuda/bin/nvcc`, adding `--cudart static` so the binary needs no CUDA libs at runtime |
-| `MATLAB: command not found` | The launcher is lowercase `matlab` | Use `matlab` (after `module load MATLAB`) |
+| `apptainer: command not found` on a compute node | Apptainer isn't on your PATH until you load it | `module load apptainer` first — in interactive sessions **and inside the sbatch script** (Insomnia/Free Tier; on Ginsburg/Terremoto the runtime is Singularity: `module load singularity`) |
+| `nvcc: command not found` after `module load cuda` | `module load cuda` + bare `nvcc` doesn't put the compiler on your PATH | Compile with the full toolkit path `/usr/local/cuda/bin/nvcc`, adding `--cudart static` so the binary needs no CUDA libs at runtime (verified on Insomnia; Ginsburg/Terremoto use `cudaXX/toolkit` modules — see their Software pages) |
+| `MATLAB: command not found` | The launcher is lowercase `matlab` | Use lowercase `matlab` (module name: `MATLAB` on Insomnia, `matlab` on Ginsburg/Terremoto) |
 | MATLAB job runs then hangs until walltime | `matlab -r "..."` stays at the prompt with no terminal | End the command with `; exit`: `matlab -nosplash -nodisplay -nodesktop -r "myfunc(10); exit"` |
-| a program can't find a module you loaded on the login node | Modules are only visible on **compute** nodes, and the login env doesn't carry into a batch job | `srun` to a compute node for interactive work; put `module load ...` **inside** the sbatch script |
+| a program can't find a module you loaded on the login node | On Insomnia modules aren't visible on the login node at all, and a batch job doesn't inherit your interactive module setup | `srun` to a compute node for interactive work; put `module load ...` **inside** the sbatch script |
 | software table module name doesn't load | Names differ per cluster / version drift | Check the cluster's Software page via `../docs/INDEX.md`; run `module avail <name>` on a compute node |
 
 ## MPI

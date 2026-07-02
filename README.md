@@ -60,9 +60,8 @@ agent's skills directory.
 
 Distilled from Columbia's RCS Confluence docs (snapshot captured 2026-06-30) and
 **verified on-cluster on 2026-07-01** by running a suite of jobs on Insomnia.
-Cluster facts trace to Columbia's docs (the canonical source); where the docs conflict,
-the reference files flag it rather than guessing. Where a documented step currently fails
-on the live system, the reference files note the working command and cite the source page
-so it can be verified and reported to RCS.
+Cluster facts trace to Columbia's docs (the canonical source), bundled under
+`columbia-hpc/docs/` and corrected in-place where a documented step was verified to fail
+on the live system (each correction is visible in this repo's git history).
 
 Not affiliated with or endorsed by Columbia University; community-maintained.

@@ -48,7 +48,7 @@ Two kinds of thing, kept separate so there's never a question of which to trust:
 - **Match the cluster.** Insomnia, Ginsburg, Terremoto, and the Free Tier differ — open the page
   for the cluster the user is actually on.
 - **Load software with `module load` on a compute node** — even tools described as "available"
-  may need an explicit `module load`, and modules aren't visible on the login node at all.
+  may need an explicit `module load`; on Insomnia, modules aren't visible on the login node at all.
 - **When the docs are silent or you're unsure, verify cheaply** in an interactive `srun` session
   instead of assuming.
 
@@ -57,7 +57,7 @@ Two kinds of thing, kept separate so there's never a question of which to trust:
 Columbia clusters have three kinds of machine; using the wrong one is the most common mistake:
 
 1. **Login node** (where you land on SSH) — shared. Edit files, submit jobs. **Never compute,
-   compile, or run anything heavy here**, and note modules aren't visible here.
+   compile, or run anything heavy here** (and on Insomnia, modules aren't even visible here).
 2. **Compute node, interactive** (`srun --pty ... /bin/bash`) — a real worker with a live shell.
    Use it to compile, install, pull containers, and **test** before committing to a batch job.
 3. **Compute node, batch** (`sbatch script.sh`) — unattended production runs.

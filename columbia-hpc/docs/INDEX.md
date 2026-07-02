@@ -21,7 +21,7 @@ verified fixes on-cluster. **These pages are the source of truth for facts.**
 |---|---|
 | get access / log in / Duo / find my account | the cluster's **Getting Started** page |
 | submit a job / resource directives / walltime & job limits | the cluster's **Submitting Jobs** page |
-| know home vs scratch paths, quotas | the cluster's **Storage** page |
+| know home vs scratch paths, quotas | the cluster's **Storage** page (on Ginsburg, read **New Scratch Space** too) |
 | see installed software / module names | the cluster's **Software** page |
 | node specs, GPUs, partitions | the cluster's **Technical Information** page |
 | worked job examples (MPI, GPU, containers, MATLAB, Python, R, Julia, Jupyter) | the cluster's **Job Examples** page |

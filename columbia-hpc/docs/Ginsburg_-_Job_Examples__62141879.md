@@ -145,7 +145,7 @@ To use OpenMPI, you must load the openmpi module instead:
 
 module load openmpi/gcc/64
 
-mpiexec myprogram
+mpiexec ./myprogram
 ```
 
 Your program must be compiled on the cluster. You can use the the module command as explained above to set your path so that the corresponding mpicc will be found. Note that you may have to set additional environment variables in order to successfully compile your program.
@@ -891,14 +891,15 @@ A Slurm script, simpoiss.sh, that can be used to submit this job is presented be
 #SBATCH -t 0-0:30                # Runtime in D-HH:MM
 #SBATCH --mem-per-cpu=5G         # The memory the job will use per cpu core
 
-module load matlab echo "Launching a MATLAB run"
+module load matlab
+echo "Launching a MATLAB run"
 date
 
 #define parameter lambda
 LAMBDA=10
 
 #Command to execute MATLAB code
-MATLAB -nosplash -nodisplay -nodesktop -r "simPoissGLM($LAMBDA)" # > matoutfile
+matlab -nosplash -nodisplay -nodesktop -r "simPoissGLM($LAMBDA); exit" # > matoutfile
 
 # End of script
 ```

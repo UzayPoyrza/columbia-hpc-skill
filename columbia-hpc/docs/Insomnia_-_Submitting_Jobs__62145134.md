@@ -157,7 +157,7 @@ Minimum memory required per allocated CPU. If you request all 80 cores (one node
 If you specify the real memory required per node: 
 
 ```
---mem=160gb 
+--mem=400gb 
 ```
 
 You will get the same.  However, if you specify:

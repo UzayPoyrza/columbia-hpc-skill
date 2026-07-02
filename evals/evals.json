@@ -3,13 +3,13 @@
   "evals": [
     {
       "id": 0,
-      "prompt": "I need to run a PyTorch training script on Columbia's Insomnia cluster on a GPU. My group account is rcs. It uses roughly 20 GB of GPU memory and takes about 3 hours. Can you write me the sbatch script and walk me through how to actually get it running from scratch?",
-      "expected_output": "Right-sized single-GPU sbatch (--gres=gpu:1, sane time, -A rcs), srun-then-sbatch workflow, load env in-script, run from scratch. No node over-request.",
+      "prompt": "I need to run a PyTorch training script on Columbia's Insomnia cluster on a GPU. My group account is mylab. It uses roughly 20 GB of GPU memory and takes about 3 hours. Can you write me the sbatch script and walk me through how to actually get it running from scratch?",
+      "expected_output": "Right-sized single-GPU sbatch (--gres=gpu:1, sane time, -A mylab), srun-then-sbatch workflow, load env in-script, run from scratch. No node over-request.",
       "files": []
     },
     {
       "id": 1,
-      "prompt": "I've got an MPI simulation to run on Insomnia under account rcs. The example in the docs uses `#SBATCH -N 2` and `--ntasks-per-node=80` so I was just going to copy that. It's a medium-sized job. Does that look right?",
+      "prompt": "I've got an MPI simulation to run on Insomnia under account mylab. The example in the docs uses `#SBATCH -N 2` and `--ntasks-per-node=80` so I was just going to copy that. It's a medium-sized job. Does that look right?",
       "expected_output": "Pushes back on copying the 2-node/80-task demo; coaches right-sizing (1 node default) + measure with seff.",
       "files": []
     },

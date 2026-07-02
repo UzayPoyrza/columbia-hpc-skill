@@ -26,7 +26,7 @@ To ensure your jobs run reliably and respect cluster resources, follow the Prepa
 Upload your generated input files to your Insomnia home or scratch directory using `scp` or Globus.
 
 ```
-scp my_calculation.mae your_uni@ginsburg.columbia.edu:/specified_location
+scp my_calculation.mae your_uni@ginsburg.rcs.columbia.edu:/specified_location
 ```
 
 ### **3. Execute the Job:**

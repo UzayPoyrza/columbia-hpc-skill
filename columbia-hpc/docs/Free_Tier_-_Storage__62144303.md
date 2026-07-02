@@ -105,7 +105,7 @@ This will clean the index cache, lock files, tarballs, unused cache packages, an
 Free Tier users can create directories in their account's scratch storage using their UNI or a project name.
 
 ```
-$ cd /insomnia/deptrs/free/users/
+$ cd /insomnia001/depts/free/users/
 $ mkdir <UNI>
 ```
 

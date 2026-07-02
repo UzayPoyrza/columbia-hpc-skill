@@ -22,7 +22,7 @@ Ginsburg has 191 Standard Nodes with the following specifications:
 |  |  |
 | --- | --- |
 | Model | Dell |
-| CPU | Intel Xeon Gold 6226 2.9 Ghz |
+| CPU | Intel Xeon Gold 6226R 2.9 Ghz |
 | Number of CPUs | 2 |
 | Cores per CPU | 16 |
 | Total Cores | 32 |

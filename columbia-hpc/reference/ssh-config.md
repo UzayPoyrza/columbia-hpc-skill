@@ -7,14 +7,14 @@ setup that makes cluster access smoother.
 On the user's **own machine**, add to `~/.ssh/config`:
 
 ```
-Host *.columbia.edu
+Host *.rcs.columbia.edu
     User <uni>
     ServerAliveInterval 30
 ```
 - `User <uni>` → default username, so `ssh insomnia.rcs.columbia.edu` works without `<uni>@`.
   Use the user's own UNI.
 - `ServerAliveInterval 30` → keepalive so idle sessions don't freeze/drop.
-- Scope to `*.columbia.edu` (with the leading dot) so it only affects Columbia hosts, then
+- Scope the block to `*.rcs.columbia.edu` so it only affects the cluster hosts (not every Columbia machine), then
   `chmod 600 ~/.ssh/config` (SSH ignores a config others can write).
 
 ## For agents / automation: reuse one authenticated connection
@@ -24,7 +24,7 @@ times. Add connection multiplexing so the user authenticates **once** and later 
 reuse the live connection:
 
 ```
-Host *.columbia.edu
+Host *.rcs.columbia.edu
     User <uni>
     ServerAliveInterval 30
     ControlMaster auto

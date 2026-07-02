@@ -38,7 +38,7 @@ This script will print "Hello World", sleep for 10 seconds, and then print the t
 #
 #SBATCH --account=ACCOUNT        # Replace ACCOUNT with your group account name
 #SBATCH --job-name=HelloWorld    # The job name
-#SBATCH -c 1                     # The number of cpu cores to use (up to 160 cores per server as hyperthreading is enabled)
+#SBATCH -c 1                     # The number of cpu cores to use (up to 80 physical cores per server; 160 logical CPUs with hyperthreading)
 #SBATCH --time=0-0:30            # The time the job will take to run in D-HH:MM
 #SBATCH --mem-per-cpu=5G         # The memory the job will use per cpu core
 
@@ -505,7 +505,7 @@ These 2 files were created:
 
 [GeoChemFoam](https://github.com/GeoChemFoam) is open source code, based on the OpenFoam CFD toolbox [developed at the Institute of GeoEnergy Engineering, Heriot-Watt University](https://www.julienmaes.com/geochemfoam).
 
-Some additional steps/tweaks are needed to get all of the features working. For this tutorial we assume [GeoChemFoam](https://github.com/GeoChemFoam) version 5.1 and use the [Test Case 01 Species transport in a Ketton Micro-CT image tutorial](https://github.com/GeoChemFoam/GeoChemFoam/wiki/Test-Case-01----Species-transport). You can choose your version of Anaconda Python. Note there are some changes in the tutorial from earlier versions of GeoChemFoam, e.g., 4.8. For this tutorial we assume the name of the Apptainer container is `geochemfoam-5.1.sif`. and we'll use an interactive job with `salloc`, to request  8 `--ntasks` for use with OpenMPI in the Ketton tutorial. Note that Apptainer is installed on all compute nodes so there is no need to load a module for it. Also note that copy/pasting these commands may not work, so it's best to type these commands out. Note that using multiple nodes with either with `-N`/`--nodes`= or adding `-c`/`--cpus-per-task`in your `SBATCH` script will not work and result in an error: "A`n ORTE daemon has unexpectedly failed after launch and before communicating back to mpirun.`" 
+Some additional steps/tweaks are needed to get all of the features working. For this tutorial we assume [GeoChemFoam](https://github.com/GeoChemFoam) version 5.1 and use the [Test Case 01 Species transport in a Ketton Micro-CT image tutorial](https://github.com/GeoChemFoam/GeoChemFoam/wiki/Test-Case-01----Species-transport). You can choose your version of Anaconda Python. Note there are some changes in the tutorial from earlier versions of GeoChemFoam, e.g., 4.8. For this tutorial we assume the name of the Apptainer container is `geochemfoam-5.1.sif`. and we'll use an interactive job with `salloc`, to request  8 `--ntasks` for use with OpenMPI in the Ketton tutorial. Note that Apptainer is installed on all compute nodes but must be loaded with `module load apptainer` first. Also note that copy/pasting these commands may not work, so it's best to type these commands out. Note that using multiple nodes with either with `-N`/`--nodes`= or adding `-c`/`--cpus-per-task`in your `SBATCH` script will not work and result in an error: "A`n ORTE daemon has unexpectedly failed after launch and before communicating back to mpirun.`" 
 
 ```
 salloc -t 0-01:0:00 --ntasks=8 --mem=12gb <your-account> 
@@ -698,7 +698,7 @@ A Slurm script, hedge.sh, that can be used to submit this job is presented below
 #
 #SBATCH -A ACCOUNT               # Replace ACCOUNT with your group account name 
 #SBATCH -J DeltaHedge            # The job name
-#SBATCH -c 4                     # The number of cpu cores to use. Max 32.
+#SBATCH -c 4                     # The number of cpu cores to use. Max 80.
 #SBATCH -t 0-0:30                # Runtime in D-HH:MM
 #SBATCH --mem-per-cpu 5gb        # The memory the job will use per cpu core
 
@@ -868,7 +868,7 @@ A Slurm script, simpoiss.sh, that can be used to submit this job is presented be
 #
 #SBATCH -A ACCOUNT               # Replace ACCOUNT with your group account name 
 #SBATCH -J SimpleMLJob           # The job name
-#SBATCH -c 1                     # Number of cores to use (max 32)
+#SBATCH -c 1                     # Number of cores to use (max 80)
 #SBATCH -t 0-0:30                # Runtime in D-HH:MM
 #SBATCH --mem-per-cpu=5G         # The memory the job will use per cpu core
 
@@ -895,14 +895,14 @@ This program will leave several files in the output directory: slurm-<jobid>.out
 
 ### MATLAB with Parallel Computing Toolbox
 
-Parallel Computing Toolbox (PCT)™, [formerly known as Distributed Computing Engine](https://www.mathworks.com/matlabcentral/answers/217639-what-is-the-difference-between-the-distrib_comp_engine-and-distrib_computing_toolbox-licenses), is installed within MATLAB. It lets you solve computationally and data-intensive problems using multicore processors, but limited to one compute/execute node. The compute nodes on Insomnia have 32 CPUs, over 2 sockets, with 16 cores per socket. In order to use PCT you will have to incorporate MATLAB functions such as [distributed](https://www.mathworks.com/help/releases/R2020b/parallel-computing/distributed.distributed.html) or [parfor](https://www.mathworks.com/help/releases/R2020b/parallel-computing/parallel-for-loops-parfor.html?s_tid=CRUX_lftnav). Note in order to use all 32 CPUs the best practice is to use the `--exclusive` option to `srun` in order to assure no other users are running jobs on the requested node and it may take a while to get a free node, depending on how many users are running jobs. As in the previous section, the `-c` option option can be used to specify the number of cores, with 16 being the maximum
+Parallel Computing Toolbox (PCT)™, [formerly known as Distributed Computing Engine](https://www.mathworks.com/matlabcentral/answers/217639-what-is-the-difference-between-the-distrib_comp_engine-and-distrib_computing_toolbox-licenses), is installed within MATLAB. It lets you solve computationally and data-intensive problems using multicore processors, but limited to one compute/execute node. The compute nodes on Insomnia have 80 physical cores, over 2 sockets, with 40 cores per socket. In order to use PCT you will have to incorporate MATLAB functions such as [distributed](https://www.mathworks.com/help/releases/R2020b/parallel-computing/distributed.distributed.html) or [parfor](https://www.mathworks.com/help/releases/R2020b/parallel-computing/parallel-for-loops-parfor.html?s_tid=CRUX_lftnav). Note in order to use all 80 cores the best practice is to use the `--exclusive` option to `srun` in order to assure no other users are running jobs on the requested node and it may take a while to get a free node, depending on how many users are running jobs. As in the previous section, the `-c` option option can be used to specify the number of cores, with 80 being the maximum
 
 - To configure PCT, from the `Home` tab, under `Environment`, select the down arrow next to `Parallel` and select `Create and manage a cluster`.
 - This opens up `Cluster Profile Manager`. Click `Add cluster profile` and choose `Local (use the cores on your machine)`.
 - Click `Set as default`.
 - Click `Edit`, which is within the `Manage Profile` section.
 - Add a `Description`
-- Set `Number of workers` to start on your local machine, with the maximum being 16.
+- Set `Number of workers` to start on your local machine, with the maximum being 80.
 - The rest of the fields can be left to their default value, unless you want to change them.
 - Click `Validate,` it can take a minute to complete.
 

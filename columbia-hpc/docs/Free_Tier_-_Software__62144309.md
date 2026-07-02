@@ -87,7 +87,7 @@ On Insomnia, rstudio can be loaded by leveraging an interactive session, i.e., `
 srun -X -A <GROUP> --pty -t 0-01:00 -X /bin/bash
 ```
 
-Apptainer is loaded automatically and no longer a separate module the way Singularity was on previous clusters. We can go ahead and use it to pull the container. This will take a few minutes.
+Apptainer is available on all compute nodes but must be loaded with `module load apptainer` first. We can go ahead and use it to pull the container. This will take a few minutes.
 
 On subsequent sessions you skip this step as the container will remain.
 

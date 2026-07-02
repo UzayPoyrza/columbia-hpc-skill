@@ -169,9 +169,9 @@ or 
   
 If you do not specify the memory requirement, by default you get 4 gb per CPU. 
 
-Terremoto has 92 Standard Nodes with 192 GB of memory.
+Terremoto has 111 Standard Nodes with 192 GB of memory.
 
-Terremoto's 10 high memory nodes have 768 GB of memory each. They are otherwise identical to the standard nodes.
+Terremoto's 14 high memory nodes have 768 GB of memory each. They are otherwise identical to the standard nodes.
 
 For example,   
 --mem-per-cpu=5gb   
