@@ -1,5 +1,5 @@
 ---
-name: columbia-hpc
+name: cu-hpc
 description: >-
   Help users run work on Columbia University's Research Computing (RCS/CUIT) HPC
   clusters — Insomnia, Ginsburg, Terremoto, or the Free Tier (*.rcs.columbia.edu) —

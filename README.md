@@ -28,7 +28,7 @@ Two things make it more than a doc dump:
 ## What's inside
 
 ```
-columbia-hpc/
+cu-hpc/
   SKILL.md              # router + navigation judgment + resource principles + workflow
   docs/                 # Columbia's HPC pages, bundled locally = the FACTS (source of truth)
     INDEX.md            # topic/task → the right page (the map the agent routes through)
@@ -51,20 +51,20 @@ context.
 
 As a skill via the [skills CLI](https://skills.sh):
 ```
-npx skills add UzayPoyrza/columbia-hpc-skill@columbia-hpc
+npx skills add UzayPoyrza/columbia-hpc-skill@cu-hpc
 ```
-Or drop the `columbia-hpc/` folder into `~/.claude/skills/` (Claude Code) or your
+Or drop the `cu-hpc/` folder into `~/.claude/skills/` (Claude Code) or your
 agent's skills directory.
 
 Once installed it triggers automatically on Columbia-HPC questions, and you can also
-**invoke it explicitly** by typing `/columbia-hpc <your question>` in Claude Code.
+**invoke it explicitly** by typing `/cu-hpc <your question>` in Claude Code.
 
 ## Provenance
 
 Distilled from Columbia's RCS Confluence docs (snapshot captured 2026-06-30) and
 **verified on-cluster on 2026-07-01** by running a suite of jobs on Insomnia.
 Cluster facts trace to Columbia's docs (the canonical source), bundled under
-`columbia-hpc/docs/` and corrected in-place where a documented step was verified to fail
+`cu-hpc/docs/` and corrected in-place where a documented step was verified to fail
 on the live system (each correction is visible in this repo's git history).
 
 Not affiliated with or endorsed by Columbia University; community-maintained.
