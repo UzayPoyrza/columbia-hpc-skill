@@ -13,6 +13,7 @@ description: >-
   killed or pending job, sizing a job, or copying data to scratch. Do NOT trigger
   for generic SLURM questions with no Columbia signal, or a clearly different
   university's cluster (e.g. Stanford).
+argument-hint: "[your question or task]"
 ---
 
 # Columbia HPC (Insomnia · Ginsburg · Terremoto)

@@ -56,6 +56,9 @@ npx skills add UzayPoyrza/columbia-hpc-skill@columbia-hpc
 Or drop the `columbia-hpc/` folder into `~/.claude/skills/` (Claude Code) or your
 agent's skills directory.
 
+Once installed it triggers automatically on Columbia-HPC questions, and you can also
+**invoke it explicitly** by typing `/columbia-hpc <your question>` in Claude Code.
+
 ## Provenance
 
 Distilled from Columbia's RCS Confluence docs (snapshot captured 2026-06-30) and
