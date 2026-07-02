@@ -57,8 +57,11 @@ Two kinds of thing, kept separate so there's never a question of which to trust:
 
 Columbia clusters have three kinds of machine; using the wrong one is the most common mistake:
 
-1. **Login node** (where you land on SSH) — shared. Edit files, submit jobs. **Never compute,
-   compile, or run anything heavy here** (and on Insomnia, modules aren't even visible here).
+1. **Login node** (where you land on SSH) — shared. Only small housekeeping belongs here:
+   editing files, moving/creating files and directories, submitting and monitoring jobs.
+   **Anything else — running scripts, compiling, pip/conda installs, container pulls,
+   (de)compressing data — must go through `srun` to a compute node** (and on Insomnia,
+   modules aren't even visible here).
 2. **Compute node, interactive** (`srun --pty ... /bin/bash`) — a real worker with a live shell.
    Use it to compile, install, pull containers, and **test** before committing to a batch job.
 3. **Compute node, batch** (`sbatch script.sh`) — unattended production runs.
