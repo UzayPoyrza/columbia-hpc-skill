@@ -32,7 +32,7 @@ If you have any issues with it, please don’t hesitate to reach out to hpc-supp
 
 ## Logging In
 
-You will need to use SSH (Secure Shell) in order to access the cluster.  Windows users can use [PuTTY](http://www.columbia.edu/acis/software/putty/) or [Cygwin](http://www.cygwin.com/). MacOS users can use the built-in Terminal application.
+You will need to use SSH (Secure Shell) in order to access the cluster. **Note: as of July 2026, connecting from off campus requires the [CUIT VPN](https://www.cuit.columbia.edu/vpn); no VPN is needed from the campus network.**  Windows users can use [PuTTY](http://www.columbia.edu/acis/software/putty/) or [Cygwin](http://www.cygwin.com/). MacOS users can use the built-in Terminal application.
 
 Users log in to the cluster's submit node, located at **insomnia.rcs.columbia.edu** or use the shorter form **som.rcs.columbia.edu**.  If logging in from a command line, type:
 
